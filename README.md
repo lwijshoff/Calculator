@@ -1,6 +1,6 @@
 # Calculator
 
-This repository contains the code of a school calculator program.
+This repository contains the code of a school calculator program.  \
 It was intended for non-commercial purposes.
 
 ## TODO
