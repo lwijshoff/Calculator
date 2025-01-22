@@ -1,0 +1,277 @@
+import basis.*;
+import java.awt.event.KeyEvent; // https://docs.oracle.com/en/java/javase/11/docs/api/constant-values.html
+
+public class Interface {
+
+    private Fenster root;
+    private TextFeld numberfield;
+
+    private int root_width = 420;
+    private int root_height = 740;
+    private int numberfield_width = 420 - 20;
+    private int numberfield_height = 212;
+
+    private Tastatur keyboard;
+
+    private Knopf one;
+    private Knopf two;
+    private Knopf three;
+    private Knopf four;
+    private Knopf five;
+    private Knopf six;
+    private Knopf seven;
+    private Knopf eigth;
+    private Knopf nine;
+    private Knopf zero;
+
+    private Knopf clear;
+    private Knopf remove;
+    private Knopf decimal;
+
+    private Knopf plus;
+    private Knopf minus;
+    private Knopf multiply;
+    private Knopf divide;
+    private Knopf bracket_open;
+    private Knopf bracket_close;
+
+    private Knopf equals;
+
+    private Calculator calculator; // Custom implementation
+
+    public Interface() {
+        root = new Fenster("Calculator", root_width, root_height);
+        root.setzeHintergrundFarbe(Farbe.DUNKELGRAU);
+
+        create_numberfield();
+
+        one = new Knopf("1", 10, 312 + 20, 100, 100);
+        two = new Knopf("2", 110, 312 + 20, 100, 100);
+        three = new Knopf("3", 210, 312 + 20, 100, 100);
+        four = new Knopf("4", 10, 412 + 20, 100, 100);
+        five = new Knopf("5", 110, 412 + 20, 100, 100);
+        six = new Knopf("6", 210, 412 + 20, 100, 100);
+        seven = new Knopf("7", 10, 512 + 20, 100, 100);
+        eigth = new Knopf("8", 110, 512 + 20, 100, 100);
+        nine = new Knopf("9", 210, 512 + 20, 100, 100);
+        zero = new Knopf("0", 10, 612 + 20, 100, 100);
+
+        clear = new Knopf("AC", 10, 212 + 20, 100, 100);
+        clear.setzeHintergrundFarbe(Farbe.ROT);
+
+        remove = new Knopf("⌫", 210, 612 + 20, 100, 100);
+        decimal = new Knopf(".", 110, 612 + 20 ,100,100);
+
+        plus = new Knopf("+", 310, 512 + 20, 100, 100);
+        minus = new Knopf("-", 310, 412 + 20, 100, 100);
+        multiply = new Knopf("×", 310, 312 + 20, 100, 100);
+        divide = new Knopf("÷", 310, 212 + 20, 100, 100);
+        bracket_open = new Knopf("(", 110, 212 + 20, 100, 100);
+        bracket_close = new Knopf(")", 210, 212 + 20, 100, 100);
+
+        equals = new Knopf("=", 310, 612 + 20, 100, 100);
+
+        keyboard = new Tastatur();
+
+        calculator = new Calculator(); // Custom implementation
+    }
+
+    public void create_numberfield() {
+        numberfield = new TextFeld(10, 10, numberfield_width, numberfield_height);
+        numberfield.setzeHintergrundFarbe(Farbe.rgb(146, 146, 146));
+        numberfield.setzeRand(Farbe.SCHWARZ, 1);
+        numberfield.setzeSchriftGroesse(50);
+        numberfield.setzeEditierbar(false); // Does not allow the user to edit directly, but only tricks user into allowing input for keys set in the match case etc.
+    }
+
+    public void cleanup() {
+        // Clears the console for BlueJ
+        System.out.print('\u000C');
+        System.exit(0);
+    }
+
+    public void resizer() {
+        root.setzeGroesse(root_width, root_height);
+    }
+
+    private void executeAction(char key) {
+
+        int keyCode = KeyEvent.VK_F4;
+        int modifiers = KeyEvent.ALT_DOWN_MASK;
+
+        switch (key) {
+            case KeyEvent.VK_F4: // This workaround is only for for BlueJ! (Alt + F4)
+                if ((modifiers & KeyEvent.ALT_DOWN_MASK) != 0) {
+                    System.out.println("Exiting application.");
+                    cleanup();
+                }
+                break;
+            case KeyEvent.VK_ESCAPE: // Exit (Escape Key)
+                System.out.println("Exiting application.");
+                cleanup();
+                break;
+            case 'C':
+            case KeyEvent.VK_DELETE:
+                clear.setzeFokus();
+                numberfield.gibFrei();
+                create_numberfield();
+                break;
+            case '1':
+                one.setzeFokus();
+                numberfield.fuegeAn('1');
+                break;
+            case '2':
+                two.setzeFokus();
+                numberfield.fuegeAn('2');
+                break;
+            case '3':
+                three.setzeFokus();
+                numberfield.fuegeAn('3');
+                break;
+            case '4':
+                four.setzeFokus();
+                numberfield.fuegeAn('4');
+                break;
+            case '5':
+                five.setzeFokus();
+                numberfield.fuegeAn('5');
+                break;
+            case '6':
+                six.setzeFokus();
+                numberfield.fuegeAn('6');
+                break;
+            case '7':
+                seven.setzeFokus();
+                numberfield.fuegeAn('7');
+                break;
+            case '8':
+                eigth.setzeFokus();
+                numberfield.fuegeAn('8');
+                break;
+            case '9':
+                nine.setzeFokus();
+                numberfield.fuegeAn('9');
+                break;
+            case '0':
+                zero.setzeFokus();
+                numberfield.fuegeAn('0');
+                break;
+            case '/':
+                divide.setzeFokus();
+                numberfield.fuegeAn("/");
+                break;
+            case '*':
+                multiply.setzeFokus();
+                numberfield.fuegeAn("*");
+                break;
+            case '-':
+                minus.setzeFokus();
+                numberfield.fuegeAn("-");
+                break;
+            case '+':
+                plus.setzeFokus();
+                numberfield.fuegeAn("+");
+                break;
+            case '.':
+                decimal.setzeFokus();
+                numberfield.fuegeAn(".");
+                break;
+            case '(':
+                bracket_open.setzeFokus();
+                numberfield.fuegeAn("(");
+                break;
+            case ')':
+                bracket_close.setzeFokus();
+                numberfield.fuegeAn(")");
+                break;
+            case '⌫':
+            case KeyEvent.VK_BACK_SPACE:
+                remove.setzeFokus();
+                // Remove the last character
+                String str = "" + numberfield.text();
+                if (str != null && str.length() > 0) {
+                    str = str.substring(0, str.length() - 1);
+                    numberfield.setzeText(str);
+                } else {
+                    System.err.println("String is empty or null");
+                }
+                break;
+            case '=':
+                equals.setzeFokus();
+                // Evaluate the expression entered in the number field
+                String expression = numberfield.text();
+                double result = calculator.eval(expression);
+
+                // Convert the result to a string and update the number field
+                String output = String.valueOf(result);
+                System.out.println(result);
+                numberfield.setzeText(output);
+                break;
+        }
+    }
+
+    public void fuehreAus() {
+        while (true) {
+            Hilfe.kurzePause();
+
+            char key = ' ';
+            if (clear.wurdeGedrueckt()) {
+                key = 'C';
+            } else if (one.wurdeGedrueckt()) {
+                key = '1';
+            } else if (two.wurdeGedrueckt()) {
+                key = '2';
+            } else if (three.wurdeGedrueckt()) {
+                key = '3';
+            } else if (four.wurdeGedrueckt()) {
+                key = '4';
+            } else if (five.wurdeGedrueckt()) {
+                key = '5';
+            } else if (six.wurdeGedrueckt()) {
+                key = '6';
+            } else if (seven.wurdeGedrueckt()) {
+                key = '7';
+            } else if (eigth.wurdeGedrueckt()) {
+                key = '8';
+            } else if (nine.wurdeGedrueckt()) {
+                key = '9';
+            } else if (zero.wurdeGedrueckt()) {
+                key = '0';
+            } else if (divide.wurdeGedrueckt()) {
+                key = '/';
+            } else if (multiply.wurdeGedrueckt()) {
+                key = '*';
+            } else if (minus.wurdeGedrueckt()) {
+                key = '-';
+            } else if (plus.wurdeGedrueckt()) {
+                key = '+';
+            } else if (decimal.wurdeGedrueckt()) {
+                key = '.';
+            } else if (bracket_open.wurdeGedrueckt()) {
+                key = '(';
+            } else if (bracket_close.wurdeGedrueckt()) {
+                key = ')';
+            } else if (remove.wurdeGedrueckt()) {
+                key = '⌫';
+            } else if (equals.wurdeGedrueckt()) {
+                key = '=';
+            }
+
+            // If no button was pressed, check for keyboard input
+            if (key == ' ' && keyboard.wurdeGedrueckt()) {
+                key = Character.toUpperCase(keyboard.zeichen());
+            }
+
+            // Execute action if a valid key is detected
+            if (key != ' ') {
+                executeAction(key);
+            }
+
+            // Prevents resizing of the root window
+            if (root.breite() != root_width || root.hoehe() != root_height) {
+                resizer();
+            }
+        }
+
+    }
+}
