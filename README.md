@@ -17,5 +17,5 @@ It was intended for non-commercial purposes.
   - [ ] Cos
   - [ ] Tan
 - [ ] Graphical Calculator
-  - [ ] Enter Polynom bzw. Vorfaktoren
-  - [ ] Graphen Zeichnen lassen
+  - [ ] Enter polynomial or prefactors
+  - [ ] Draw graphs
