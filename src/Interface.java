@@ -1,15 +1,19 @@
 import basis.*;
 import java.awt.event.KeyEvent; // https://docs.oracle.com/en/java/javase/11/docs/api/constant-values.html
+import java.util.List;
 
 public class Interface {
 
     private Fenster root;
     private TextFeld numberfield;
+    private ListBox calculator_type;
 
     private int root_width = 420;
     private int root_height = 740;
     private int numberfield_width = 420 - 20;
     private int numberfield_height = 212;
+    private int calculator_type_width = 150;
+    private int calculator_type_heigth = 20;
 
     private Tastatur keyboard;
 
@@ -41,35 +45,73 @@ public class Interface {
 
     public Interface() {
         root = new Fenster("Calculator", root_width, root_height);
-        root.setzeHintergrundFarbe(Farbe.DUNKELGRAU);
+        root.setzeHintergrundFarbe(Farbe.rgb(12, 12, 12));
 
         create_numberfield();
 
         one = new Knopf("1", 10, 312 + 20, 100, 100);
+        one.setzeHintergrundFarbe(Farbe.rgb(66, 66, 66));
+        one.setzeSchriftFarbe(Farbe.WEISS);
         two = new Knopf("2", 110, 312 + 20, 100, 100);
+        two.setzeHintergrundFarbe(Farbe.rgb(66, 66, 66));
+        two.setzeSchriftFarbe(Farbe.WEISS);
         three = new Knopf("3", 210, 312 + 20, 100, 100);
+        three.setzeHintergrundFarbe(Farbe.rgb(66, 66, 66));
+        three.setzeSchriftFarbe(Farbe.WEISS);
         four = new Knopf("4", 10, 412 + 20, 100, 100);
+        four.setzeHintergrundFarbe(Farbe.rgb(66, 66, 66));
+        four.setzeSchriftFarbe(Farbe.WEISS);
         five = new Knopf("5", 110, 412 + 20, 100, 100);
+        five.setzeHintergrundFarbe(Farbe.rgb(66, 66, 66));
+        five.setzeSchriftFarbe(Farbe.WEISS);
         six = new Knopf("6", 210, 412 + 20, 100, 100);
+        six.setzeHintergrundFarbe(Farbe.rgb(66, 66, 66));
+        six.setzeSchriftFarbe(Farbe.WEISS);
         seven = new Knopf("7", 10, 512 + 20, 100, 100);
+        seven.setzeHintergrundFarbe(Farbe.rgb(66, 66, 66));
+        seven.setzeSchriftFarbe(Farbe.WEISS);
         eigth = new Knopf("8", 110, 512 + 20, 100, 100);
+        eigth.setzeHintergrundFarbe(Farbe.rgb(66, 66, 66));
+        eigth.setzeSchriftFarbe(Farbe.WEISS);
         nine = new Knopf("9", 210, 512 + 20, 100, 100);
+        nine.setzeHintergrundFarbe(Farbe.rgb(66, 66, 66));
+        nine.setzeSchriftFarbe(Farbe.WEISS);
         zero = new Knopf("0", 10, 612 + 20, 100, 100);
+        zero.setzeHintergrundFarbe(Farbe.rgb(66, 66, 66));
+        zero.setzeSchriftFarbe(Farbe.WEISS);
 
         clear = new Knopf("AC", 10, 212 + 20, 100, 100);
-        clear.setzeHintergrundFarbe(Farbe.ROT);
+        clear.setzeHintergrundFarbe(Farbe.rgb(0, 255, 255));
 
         remove = new Knopf("⌫", 210, 612 + 20, 100, 100);
+        remove.setzeHintergrundFarbe(Farbe.rgb(44, 44, 44));
+        remove.setzeSchriftFarbe(Farbe.WEISS);
         decimal = new Knopf(".", 110, 612 + 20 ,100,100);
+        decimal.setzeHintergrundFarbe(Farbe.rgb(44, 44, 44));
+        decimal.setzeSchriftFarbe(Farbe.WEISS);
 
         plus = new Knopf("+", 310, 512 + 20, 100, 100);
+        plus.setzeHintergrundFarbe(Farbe.rgb(44, 44, 44));
+        plus.setzeSchriftFarbe(Farbe.WEISS);
         minus = new Knopf("-", 310, 412 + 20, 100, 100);
+        minus.setzeHintergrundFarbe(Farbe.rgb(44, 44, 44));
+        minus.setzeSchriftFarbe(Farbe.WEISS);
         multiply = new Knopf("×", 310, 312 + 20, 100, 100);
+        multiply.setzeHintergrundFarbe(Farbe.rgb(44, 44, 44));
+        multiply.setzeSchriftFarbe(Farbe.WEISS);
         divide = new Knopf("÷", 310, 212 + 20, 100, 100);
+        divide.setzeHintergrundFarbe(Farbe.rgb(44, 44, 44));
+        divide.setzeSchriftFarbe(Farbe.WEISS);
         bracket_open = new Knopf("(", 110, 212 + 20, 100, 100);
+        bracket_open.setzeHintergrundFarbe(Farbe.rgb(44, 44, 44));
+        bracket_open.setzeSchriftFarbe(Farbe.WEISS);
         bracket_close = new Knopf(")", 210, 212 + 20, 100, 100);
+        bracket_close.setzeHintergrundFarbe(Farbe.rgb(44, 44, 44));
+        bracket_close.setzeSchriftFarbe(Farbe.WEISS);
 
         equals = new Knopf("=", 310, 612 + 20, 100, 100);
+        equals.setzeHintergrundFarbe(Farbe.rgb(0, 255, 255));
+        equals.setzeSchriftFarbe(Farbe.WEISS);
 
         keyboard = new Tastatur();
 
@@ -78,10 +120,18 @@ public class Interface {
 
     public void create_numberfield() {
         numberfield = new TextFeld(10, 10, numberfield_width, numberfield_height);
-        numberfield.setzeHintergrundFarbe(Farbe.rgb(146, 146, 146));
+        numberfield.setzeHintergrundFarbe(Farbe.rgb(44, 44, 44));
         numberfield.setzeRand(Farbe.SCHWARZ, 1);
         numberfield.setzeSchriftGroesse(50);
+        numberfield.setzeSchriftFarbe(Farbe.WEISS);
         numberfield.setzeEditierbar(false); // Does not allow the user to edit directly, but only tricks user into allowing input for keys set in the match case etc.
+
+        calculator_type = new ListBox(0, 0, calculator_type_width, calculator_type_heigth, numberfield);
+        calculator_type.setzeHintergrundFarbe(Farbe.rgb(0, 255, 255));
+        calculator_type.setzeRand(Farbe.SCHWARZ, 1);
+        calculator_type.fuegeAn("Calculator");
+        calculator_type.fuegeAn("Advanced Calculator");
+        calculator_type.fuegeAn("Graphical Calculator");
     }
 
     public void cleanup() {
