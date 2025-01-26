@@ -15,6 +15,8 @@ public class Interface {
     private int calculator_type_width = 150;
     private int calculator_type_heigth = 20;
 
+    public int default_calculator;
+
     private Tastatur keyboard;
 
     private Knopf one;
@@ -47,7 +49,8 @@ public class Interface {
         root = new Fenster("Calculator", root_width, root_height);
         root.setzeHintergrundFarbe(Farbe.rgb(12, 12, 12));
 
-        create_numberfield();
+        default_calculator = 0;
+        create_numberfield(default_calculator);
 
         one = new Knopf("1", 10, 312 + 20, 100, 100);
         one.setzeHintergrundFarbe(Farbe.rgb(66, 66, 66));
@@ -111,14 +114,19 @@ public class Interface {
 
         equals = new Knopf("=", 310, 612 + 20, 100, 100);
         equals.setzeHintergrundFarbe(Farbe.rgb(0, 255, 255));
-        equals.setzeSchriftFarbe(Farbe.WEISS);
 
         keyboard = new Tastatur();
 
         calculator = new Calculator(); // Custom implementation
     }
 
-    public void create_numberfield() {
+    /**
+     * Creates a non-editable number field with specific styling and a list box for selecting
+     * a calculator type. The method selects a default type if none is given.
+     *
+     * @param mode The index of the calculator type to select.
+     */
+    public void create_numberfield(int mode) {
         numberfield = new TextFeld(10, 10, numberfield_width, numberfield_height);
         numberfield.setzeHintergrundFarbe(Farbe.rgb(44, 44, 44));
         numberfield.setzeRand(Farbe.SCHWARZ, 1);
@@ -132,6 +140,11 @@ public class Interface {
         calculator_type.fuegeAn("Calculator");
         calculator_type.fuegeAn("Advanced Calculator");
         calculator_type.fuegeAn("Graphical Calculator");
+        if (calculator_type.wurdeGewaehlt()) {
+            calculator_type.waehle(mode);
+        } else {
+            calculator_type.waehle(default_calculator);
+        }
     }
 
     public void cleanup() {
@@ -163,8 +176,11 @@ public class Interface {
             case 'C':
             case KeyEvent.VK_DELETE:
                 clear.setzeFokus();
+
+                // Keeps track of the last state the calculator was in, sets the calculator mode for the new numberfield
+                int mode = calculator_type.index();
                 numberfield.gibFrei();
-                create_numberfield();
+                create_numberfield(mode);
                 break;
             case '1':
                 one.setzeFokus();
@@ -251,10 +267,14 @@ public class Interface {
                 // Evaluate the expression entered in the number field
                 String expression = numberfield.text();
                 double result = calculator.eval(expression);
-
+                // Check if the result is NaN or not and log it correspondingly
+                if (Double.isNaN(result)) {
+                    System.err.println(result);
+                } else {
+                    System.out.println(result);
+                }
                 // Convert the result to a string and update the number field
                 String output = String.valueOf(result);
-                System.out.println(result);
                 numberfield.setzeText(output);
                 break;
         }
