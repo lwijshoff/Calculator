@@ -18,6 +18,7 @@ public class Interface {
     private int default_calculator;
 
     private Tastatur keyboard;
+    private Maus mouse;
 
     private Knopf one;
     private Knopf two;
@@ -182,6 +183,7 @@ public class Interface {
         log.setzeSchriftFarbe(Farbe.WEISS);
 
         keyboard = new Tastatur();
+        mouse = new Maus(equals);
 
         calculator = new Calculator(); // Custom implementation
     }
@@ -332,6 +334,8 @@ public class Interface {
                 // Evaluate the expression entered in the number field
                 String expression = numberfield.text();
                 double result = calculator.eval(expression);
+                // TODO: double lastresult = result;  // Store the result as the last result
+
                 // Check if the result is NaN or not and log it correspondingly
                 if (Double.isNaN(result)) {
                     System.err.println(result);
@@ -340,7 +344,7 @@ public class Interface {
                 }
                 // Convert the result to a string and update the number field
                 String output = String.valueOf(result);
-                numberfield.setzeText(output);
+                numberfield.setzeText(output);  // Set the result as the number field text
                 break;
             case 'I':
                 inv.setzeFokus();
@@ -390,7 +394,7 @@ public class Interface {
                 break;
             case 'L':
                 log.setzeFokus();
-                numberfield.fuegeAn("log(n)");
+                numberfield.fuegeAn("log(");
                 break;
             case 'S':
                 carrot.setzeFokus();

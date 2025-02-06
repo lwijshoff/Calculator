@@ -16,6 +16,7 @@ It was intended for non-commercial purposes.
   - [ ] Sin
   - [ ] Cos
   - [ ] Tan
+  - [ ] Add button for inserting ANS?
 - [ ] Graphical Calculator
   - [ ] Enter polynomial or prefactors
   - [ ] Draw graphs

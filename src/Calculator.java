@@ -18,7 +18,7 @@ public class Calculator {
             double result; // Variable to store the final result
 
             // Handle the power operator '**' in the expression first
-            if (expression.contains("**")) {
+            if (expression.contains("**")) { // TODO: Fix this shit, it only supports doing 2**2 but not 2**2*3 or any other mathematical operation then I stupid idiot
                 result = evaluatePower(expression);
             } else {
                 // Add multiplication symbol where necessary
