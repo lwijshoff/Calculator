@@ -384,6 +384,18 @@ public class Interface {
                     System.out.println("Set mode to degree");
                     break;
                 }
+            case 'P':
+                power.setzeFokus();
+                numberfield.fuegeAn("**");
+                break;
+            case 'L':
+                log.setzeFokus();
+                numberfield.fuegeAn("log(n)");
+                break;
+            case 'S':
+                carrot.setzeFokus();
+                numberfield.fuegeAn("**(1/");
+                break;
         }
     }
 
@@ -439,6 +451,12 @@ public class Interface {
                 key = 'R';
             } else if (rad.wurdeGedrueckt()) {
                 key = 'D';
+            } else if (power.wurdeGedrueckt()) {
+                key = 'P';
+            } else if (log.wurdeGedrueckt()) {
+                key = 'L';
+            } else if (carrot.wurdeGedrueckt()) {
+                key = 'S';
             }
 
             // Check for keyboard input if no button is pressed

@@ -15,19 +15,21 @@ public class Calculator {
             // Remove all whitespaces
             expression = expression.replaceAll("\\s", "");
 
-            // Handle the power operator '**' in the expression
+            double result; // Variable to store the final result
+
+            // Handle the power operator '**' in the expression first
             if (expression.contains("**")) {
-                return evaluatePower(expression);
+                result = evaluatePower(expression);
+            } else {
+                // Add multiplication symbol where necessary
+                expression = addMultiplicationSigns(expression);
+
+                // Evaluate the expression normally
+                result = evaluateExpression(expression);
             }
 
-            // Add multiplication symbol where necessary
-            expression = addMultiplicationSigns(expression);
-
-            // Evaluates the expression
-            double result = evaluateExpression(expression);
-
-            // Round to 2 decimal places
-            return round(result, 4);  // Round to 4 decimal places
+            // Round the final result and return it
+            return round(result, 4);
         } catch (Exception e) {
             return Double.NaN; // Return NaN for invalid expressions
         }
