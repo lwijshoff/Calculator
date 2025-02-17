@@ -103,25 +103,6 @@ public class Calculator {
         return evaluateFactor(expression); // If no * or /, evaluate the factor
     }
 
-    // Method to handle power operator '**' (x**n or x**(1/n))
-    private double evaluatePower(String expression) {
-        // Split by '**' to separate the base and exponent
-        String[] parts = expression.split("\\*\\*");
-        double base = Double.parseDouble(parts[0]);
-
-        // Check if the exponent is wrapped in parentheses (for roots like 1/n)
-        double exponent;
-        if (parts[1].startsWith("(") && parts[1].endsWith(")")) {
-            // Remove the parentheses and parse the value inside
-            String innerExpression = parts[1].substring(1, parts[1].length() - 1);
-            exponent = eval(innerExpression); // Call eval on the inner expression (1/n or something similar)
-        } else {
-            exponent = Double.parseDouble(parts[1]); // Regular exponent
-        }
-
-        return Math.pow(base, exponent); // Use Math.pow to calculate x^n or x^(1/n)
-    }
-
     // Method to evaluate individual factors
     private double evaluateFactor(String expression) {
         // If the expression is a number, return it directly
