@@ -1,6 +1,6 @@
 # Calculator
 
-This repository contains the code of a school calculator program.
+This repository contains the code of a school calculator program.  \
 It was intended for non-commercial purposes.
 
 ## TODO
@@ -9,6 +9,11 @@ It was intended for non-commercial purposes.
   - [x] Subtract
   - [x] Divide
   - [x] Multiply
+- [ ] Graphical Calculator
+  - [ ] Enter polynomial or prefactors
+  - [ ] Draw graphs
+
+> Scrapped the Advanced Calculator
 - [ ] Advanced Calculator
   - [ ] Root
   - [ ] Power
@@ -16,6 +21,4 @@ It was intended for non-commercial purposes.
   - [ ] Sin
   - [ ] Cos
   - [ ] Tan
-- [ ] Graphical Calculator
-  - [ ] Enter polynomial or prefactors
-  - [ ] Draw graphs
+  - [ ] Add button for inserting ANS?
