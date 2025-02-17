@@ -9,7 +9,7 @@ public class Interface {
     private ListBox calculator_type;
 
     private int root_width = 420;
-    private int root_height = 940;
+    private int root_height = 740;
     private int numberfield_width = 420 - 20;
     private int numberfield_height = 212;
     private int calculator_type_width = 150;
@@ -44,20 +44,6 @@ public class Interface {
 
     private Knopf equals;
 
-    private Knopf inv;
-    private Knopf deg;
-    private Knopf rad;
-
-    private Knopf sin;
-    private Knopf cos;
-    private Knopf tan;
-    private Knopf arcsin;
-    private Knopf arccos;
-    private Knopf arctan;
-    private Knopf power;
-    private Knopf carrot; // root was already taken lol (Wurzel --> carrot)
-    private Knopf log;
-
     public Calculator calculator; // Custom implementation
 
     public Interface() {
@@ -67,57 +53,57 @@ public class Interface {
         default_calculator = 0;
         create_numberfield(default_calculator);
 
-        one = new Knopf("1", 10, 512 + 20, 100, 100);
+        one = new Knopf("1", 10, 312 + 20, 100, 100);
         one.setzeHintergrundFarbe(Farbe.rgb(66, 66, 66));
         one.setzeSchriftFarbe(Farbe.WEISS);
-        two = new Knopf("2", 110, 512 + 20, 100, 100);
+        two = new Knopf("2", 110, 312 + 20, 100, 100);
         two.setzeHintergrundFarbe(Farbe.rgb(66, 66, 66));
         two.setzeSchriftFarbe(Farbe.WEISS);
-        three = new Knopf("3", 210, 512 + 20, 100, 100);
+        three = new Knopf("3", 210, 312 + 20, 100, 100);
         three.setzeHintergrundFarbe(Farbe.rgb(66, 66, 66));
         three.setzeSchriftFarbe(Farbe.WEISS);
-        four = new Knopf("4", 10, 612 + 20, 100, 100);
+        four = new Knopf("4", 10, 412 + 20, 100, 100);
         four.setzeHintergrundFarbe(Farbe.rgb(66, 66, 66));
         four.setzeSchriftFarbe(Farbe.WEISS);
-        five = new Knopf("5", 110, 612 + 20, 100, 100);
+        five = new Knopf("5", 110, 412 + 20, 100, 100);
         five.setzeHintergrundFarbe(Farbe.rgb(66, 66, 66));
         five.setzeSchriftFarbe(Farbe.WEISS);
-        six = new Knopf("6", 210, 612 + 20, 100, 100);
+        six = new Knopf("6", 210, 412 + 20, 100, 100);
         six.setzeHintergrundFarbe(Farbe.rgb(66, 66, 66));
         six.setzeSchriftFarbe(Farbe.WEISS);
-        seven = new Knopf("7", 10, 712 + 20, 100, 100);
+        seven = new Knopf("7", 10, 512 + 20, 100, 100);
         seven.setzeHintergrundFarbe(Farbe.rgb(66, 66, 66));
         seven.setzeSchriftFarbe(Farbe.WEISS);
-        eigth = new Knopf("8", 110, 712 + 20, 100, 100);
+        eigth = new Knopf("8", 110, 512 + 20, 100, 100);
         eigth.setzeHintergrundFarbe(Farbe.rgb(66, 66, 66));
         eigth.setzeSchriftFarbe(Farbe.WEISS);
-        nine = new Knopf("9", 210, 712 + 20, 100, 100);
+        nine = new Knopf("9", 210, 512 + 20, 100, 100);
         nine.setzeHintergrundFarbe(Farbe.rgb(66, 66, 66));
         nine.setzeSchriftFarbe(Farbe.WEISS);
-        zero = new Knopf("0", 10, 812 + 20, 100, 100);
+        zero = new Knopf("0", 10, 612 + 20, 100, 100);
         zero.setzeHintergrundFarbe(Farbe.rgb(66, 66, 66));
         zero.setzeSchriftFarbe(Farbe.WEISS);
 
         clear = new Knopf("AC", 10, 212 + 20, 100, 100);
         clear.setzeHintergrundFarbe(Farbe.rgb(0, 255, 255));
 
-        remove = new Knopf("⌫", 210, 812 + 20, 100, 100);
+        remove = new Knopf("⌫", 210, 612 + 20, 100, 100);
         remove.setzeHintergrundFarbe(Farbe.rgb(44, 44, 44));
         remove.setzeSchriftFarbe(Farbe.WEISS);
-        decimal = new Knopf(".", 110, 812 + 20 ,100,100);
+        decimal = new Knopf(".", 110, 612 + 20 ,100,100);
         decimal.setzeHintergrundFarbe(Farbe.rgb(44, 44, 44));
         decimal.setzeSchriftFarbe(Farbe.WEISS);
 
-        plus = new Knopf("+", 310, 712 + 20, 100, 100);
+        plus = new Knopf("+", 310, 512 + 20, 100, 100);
         plus.setzeHintergrundFarbe(Farbe.rgb(44, 44, 44));
         plus.setzeSchriftFarbe(Farbe.WEISS);
-        minus = new Knopf("-", 310, 612 + 20, 100, 100);
+        minus = new Knopf("-", 310, 412 + 20, 100, 100);
         minus.setzeHintergrundFarbe(Farbe.rgb(44, 44, 44));
         minus.setzeSchriftFarbe(Farbe.WEISS);
-        multiply = new Knopf("×", 310, 512 + 20, 100, 100);
+        multiply = new Knopf("×", 310, 312 + 20, 100, 100);
         multiply.setzeHintergrundFarbe(Farbe.rgb(44, 44, 44));
         multiply.setzeSchriftFarbe(Farbe.WEISS);
-        divide = new Knopf("÷", 310, 412 + 20, 100, 100);
+        divide = new Knopf("÷", 310, 212 + 20, 100, 100);
         divide.setzeHintergrundFarbe(Farbe.rgb(44, 44, 44));
         divide.setzeSchriftFarbe(Farbe.WEISS);
         bracket_open = new Knopf("(", 110, 212 + 20, 100, 100);
@@ -127,60 +113,8 @@ public class Interface {
         bracket_close.setzeHintergrundFarbe(Farbe.rgb(44, 44, 44));
         bracket_close.setzeSchriftFarbe(Farbe.WEISS);
 
-        equals = new Knopf("=", 310, 812 + 20, 100, 100);
+        equals = new Knopf("=", 310, 612 + 20, 100, 100);
         equals.setzeHintergrundFarbe(Farbe.rgb(0, 255, 255));
-
-        inv = new Knopf("Inv", 310, 212 + 20, 100, 100);
-        inv.setzeHintergrundFarbe(Farbe.rgb(44, 44, 44));
-        inv.setzeSchriftFarbe(Farbe.WEISS);
-
-        deg = new Knopf("Deg", 310, 312 + 20, 100, 100);
-        deg.setzeHintergrundFarbe(Farbe.rgb(44, 44, 44));
-        deg.setzeSchriftFarbe(Farbe.WEISS);
-
-        rad = new Knopf("Rad", 310, 312 + 20, 100, 100);
-        rad.setzeHintergrundFarbe(Farbe.rgb(44, 44, 44));
-        rad.setzeSchriftFarbe(Farbe.WEISS);
-        rad.setzeSichtbar(false);
-
-        sin = new Knopf("Sin", 10, 312 + 20, 100, 100);
-        sin.setzeHintergrundFarbe(Farbe.rgb(44, 44, 44));
-        sin.setzeSchriftFarbe(Farbe.WEISS);
-
-        arcsin = new Knopf("Sin⁻¹", 10, 312 + 20, 100, 100);
-        arcsin.setzeHintergrundFarbe(Farbe.rgb(44, 44, 44));
-        arcsin.setzeSchriftFarbe(Farbe.WEISS);
-        arcsin.setzeSichtbar(false);
-
-        cos = new Knopf("Cos", 110, 312 + 20, 100, 100);
-        cos.setzeHintergrundFarbe(Farbe.rgb(44, 44, 44));
-        cos.setzeSchriftFarbe(Farbe.WEISS);
-
-        arccos = new Knopf("Cos⁻¹", 110, 312 + 20, 100, 100);
-        arccos.setzeHintergrundFarbe(Farbe.rgb(44, 44, 44));
-        arccos.setzeSchriftFarbe(Farbe.WEISS);
-        arccos.setzeSichtbar(false);
-
-        tan = new Knopf("Tan", 210, 312 + 20, 100, 100);
-        tan.setzeHintergrundFarbe(Farbe.rgb(44, 44, 44));
-        tan.setzeSchriftFarbe(Farbe.WEISS);
-
-        arctan = new Knopf("Tan⁻¹", 210, 312 + 20, 100, 100);
-        arctan.setzeHintergrundFarbe(Farbe.rgb(44, 44, 44));
-        arctan.setzeSchriftFarbe(Farbe.WEISS);
-        arctan.setzeSichtbar(false);
-
-        power = new Knopf("x^n", 10, 412 + 20, 100, 100);
-        power.setzeHintergrundFarbe(Farbe.rgb(44, 44, 44));
-        power.setzeSchriftFarbe(Farbe.WEISS);
-
-        carrot = new Knopf("n√x", 110, 412 + 20, 100, 100);
-        carrot.setzeHintergrundFarbe(Farbe.rgb(44, 44, 44));
-        carrot.setzeSchriftFarbe(Farbe.WEISS);
-
-        log = new Knopf("Log", 210, 412 + 20, 100, 100);
-        log.setzeHintergrundFarbe(Farbe.rgb(44, 44, 44));
-        log.setzeSchriftFarbe(Farbe.WEISS);
 
         keyboard = new Tastatur();
         mouse = new Maus(equals);
@@ -346,60 +280,6 @@ public class Interface {
                 String output = String.valueOf(result);
                 numberfield.setzeText(output);  // Set the result as the number field text
                 break;
-            case 'I':
-                inv.setzeFokus();
-                if (sin.istSichtbar() && cos.istSichtbar() && tan.istSichtbar()) {
-                    // Invert Sin Cos Tan to Arc variants
-                    arcsin.setzeSichtbar(true);
-                    arccos.setzeSichtbar(true);
-                    arctan.setzeSichtbar(true);
-                    sin.setzeSichtbar(false);
-                    cos.setzeSichtbar(false);
-                    tan.setzeSichtbar(false);
-                    System.out.println("Switching to Arccos Arcsin and Arctan");
-                    break;
-                } else if (arcsin.istSichtbar() && arccos.istSichtbar() && arctan.istSichtbar()) {
-                    // Invert Arc variants to Sin Cos Tan
-                    arcsin.setzeSichtbar(false);
-                    arccos.setzeSichtbar(false);
-                    arctan.setzeSichtbar(false);
-                    sin.setzeSichtbar(true);
-                    cos.setzeSichtbar(true);
-                    tan.setzeSichtbar(true);
-                    System.out.println("Switching to Cos Sin and Tan");
-                    break;
-                }
-            case 'D':
-            case 'R':
-                if (deg.istSichtbar() && key == 'R') {
-                    deg.setzeFokus();
-                    // Set mode to radian
-                    rad.setzeSichtbar(true);
-                    deg.setzeSichtbar(false);
-                    rad.setzeFokus();
-                    System.out.println("Set mode to radian");
-                    break;
-                } else if (rad.istSichtbar() && key == 'D') {
-                    rad.setzeFokus();
-                    // Set mode to degree
-                    deg.setzeSichtbar(true);
-                    rad.setzeSichtbar(false);
-                    deg.setzeFokus();
-                    System.out.println("Set mode to degree");
-                    break;
-                }
-            case 'P':
-                power.setzeFokus();
-                numberfield.fuegeAn("**");
-                break;
-            case 'L':
-                log.setzeFokus();
-                numberfield.fuegeAn("log(");
-                break;
-            case 'S':
-                carrot.setzeFokus();
-                numberfield.fuegeAn("**(1/");
-                break;
         }
     }
 
@@ -449,18 +329,6 @@ public class Interface {
                 key = '⌫';
             } else if (equals.wurdeGedrueckt()) {
                 key = '=';
-            } else if (inv.wurdeGedrueckt()) {
-                key = 'I';
-            } else if (deg.wurdeGedrueckt()) {
-                key = 'R';
-            } else if (rad.wurdeGedrueckt()) {
-                key = 'D';
-            } else if (power.wurdeGedrueckt()) {
-                key = 'P';
-            } else if (log.wurdeGedrueckt()) {
-                key = 'L';
-            } else if (carrot.wurdeGedrueckt()) {
-                key = 'S';
             }
 
             // Check for keyboard input if no button is pressed

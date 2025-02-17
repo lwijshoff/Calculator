@@ -9,6 +9,11 @@ It was intended for non-commercial purposes.
   - [x] Subtract
   - [x] Divide
   - [x] Multiply
+- [ ] Graphical Calculator
+  - [ ] Enter polynomial or prefactors
+  - [ ] Draw graphs
+
+> Scrapped the Advanced Calculator
 - [ ] Advanced Calculator
   - [ ] Root
   - [ ] Power
@@ -17,6 +22,3 @@ It was intended for non-commercial purposes.
   - [ ] Cos
   - [ ] Tan
   - [ ] Add button for inserting ANS?
-- [ ] Graphical Calculator
-  - [ ] Enter polynomial or prefactors
-  - [ ] Draw graphs

@@ -15,21 +15,14 @@ public class Calculator {
             // Remove all whitespaces
             expression = expression.replaceAll("\\s", "");
 
-            double result; // Variable to store the final result
+            // Add multiplication symbol where necessary
+            expression = addMultiplicationSigns(expression);
 
-            // Handle the power operator '**' in the expression first
-            if (expression.contains("**")) { // TODO: Fix this shit, it only supports doing 2**2 but not 2**2*3 or any other mathematical operation then I stupid idiot
-                result = evaluatePower(expression);
-            } else {
-                // Add multiplication symbol where necessary
-                expression = addMultiplicationSigns(expression);
+            // Evaluates the expression
+            double result = evaluateExpression(expression);
 
-                // Evaluate the expression normally
-                result = evaluateExpression(expression);
-            }
-
-            // Round the final result and return it
-            return round(result, 4);
+            // Round to 2 decimal places
+            return round(result, 12);  // Round to 4 decimal places
         } catch (Exception e) {
             return Double.NaN; // Return NaN for invalid expressions
         }
