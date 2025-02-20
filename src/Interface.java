@@ -58,6 +58,10 @@ public class Interface {
         plotter = new Fenster("Plotter", plotter_width, plotter_height, false);
         plotter.setzeHintergrundFarbe(Farbe.rgb(12, 12, 12));
 
+        plotter_pen = new Stift();
+        plotter_pen.setzeFarbe(Farbe.WEISS);
+        plotter_pen.hoch();
+
         root = new Fenster("Calculator", root_width, root_height);
         root.setzeHintergrundFarbe(Farbe.rgb(12, 12, 12));
 
@@ -162,6 +166,7 @@ public class Interface {
 
     public void cleanup() {
         // Clears the console for BlueJ
+        System.out.println("System exit!");
         System.out.print('\u000C');
         System.exit(0);
     }
@@ -291,6 +296,24 @@ public class Interface {
                 // Convert the result to a string and update the number field
                 String output = String.valueOf(result);
                 numberfield.setzeText(output);  // Set the result as the number field text
+
+                // TEST
+
+                // Define the range of x values to plot
+                double start = -10; // Starting x value
+                double end = 10;    // Ending x value
+                double step = 0.0005;  // Step size to increment x by
+                String function = "f(x)=6x"; // The function that is supposed to be plotted
+
+                // Get all the points
+                List<double[]> points = Plotter.plot(start, end, step, function);
+                // Loop through all points and plot them
+                for (double[] point : points) {
+                    zeichnePunkt(point[0], point[1]);
+                }
+
+                // TEST
+
                 break;
         }
     }
@@ -346,6 +369,135 @@ public class Interface {
         }
     }
 
+    // Variables to save window sizes
+    private int letzteBreite = 0;
+    private int letzteHoehe = 0;
+
+    /**
+     * God help me, this method took forever to create.
+     *
+     * Draws a 2D Coordinate system with axis, that adapt relative to the window size
+     */
+    public void zeichneKoordinatensystem() {
+        // Get the current width and height of the window
+        int breite = plotter.breite();
+        int hoehe = plotter.hoehe();
+
+        // Check if the window size has changed
+        if (breite != letzteBreite || hoehe != letzteHoehe) {
+            // Update the stored window sizes
+            letzteBreite = breite;
+            letzteHoehe = hoehe;
+
+            // Determine the center point of the window (origin of the coordinate system)
+            double mitteX = breite / 2.0;
+            double mitteY = hoehe / 2.0;
+
+            // Clear the drawing area
+            plotter.loescheAlles();
+
+            // Set the pen to normal mode
+            plotter_pen.normal();
+
+            // Set the pen color to white
+            plotter_pen.setzeFarbe(Farbe.WEISS);
+
+            // Positive X-Axis
+            for (double x = mitteX; x <= breite; x += 20) {
+                plotter_pen.linie(x, mitteY - 5, x, mitteY + 5);  // Vertical line
+
+                // Calculate the value of the X-Axis
+                int AxisnWert = (int) ((x - mitteX) / 20);
+
+                // Label the X-Axis
+                if (x != mitteX) {  // Prevents the value of the origin (0) from appearing twice
+                    plotter_pen.bewegeAuf(x, mitteY + 15);  // Position for label
+                    plotter_pen.schreibe(Integer.toString(AxisnWert));
+                }
+            }
+
+            // Negative X-Axis
+            for (double x = mitteX; x >= 0; x -= 20) {
+                plotter_pen.linie(x, mitteY - 5, x, mitteY + 5);  // Vertical line
+
+                // Calculate the value of the X-Axis
+                int AxisnWert = (int) ((x - mitteX) / 20);
+
+                // Label the X-Axis
+                if (x != mitteX) {  // Prevents the value of the origin (0) from appearing twice
+                    plotter_pen.bewegeAuf(x, mitteY + 15);  // Position for label
+                    plotter_pen.schreibe(Integer.toString(AxisnWert));
+                }
+            }
+
+            // Positive Y-Axis
+            for (double y = mitteY; y >= 0; y -= 20) {
+                plotter_pen.linie(mitteX - 5, y, mitteX + 5, y);  // Horizontal line
+
+                // Calculate the value of the Y-Axis
+                int AxisnWert = (int) ((mitteY - y) / 20);
+
+                // Label the Y-Axis
+                if (y != mitteY) {  // Prevents the value of the origin (0) from appearing twice
+                    plotter_pen.bewegeAuf(mitteX + 10, y);  // Position for label
+                    plotter_pen.schreibe(Integer.toString(AxisnWert));
+                }
+            }
+
+            // Negative Y-Axis
+            for (double y = mitteY; y <= hoehe; y += 20) {
+                plotter_pen.linie(mitteX - 5, y, mitteX + 5, y);  // Horizontal line
+
+                // Calculate the value of the Y-Axis
+                int AxisnWert = (int) ((mitteY - y) / 20);
+
+                // Label the Y-Axis
+                if (y != mitteY) {  // Prevents the value of the origin (0) from appearing twice
+                    plotter_pen.bewegeAuf(mitteX + 10, y);  // Position for label
+                    plotter_pen.schreibe(Integer.toString(AxisnWert));
+                }
+            }
+
+            // Draw the main axes (X-Axis and Y-Axis)
+            plotter_pen.linie(0, mitteY, breite, mitteY);  // X-Axis
+            plotter_pen.linie(mitteX, 0, mitteX, hoehe);  // Y-Axis
+
+            // Label the axes
+            plotter_pen.bewegeAuf(breite - 15, mitteY - 15);  // Move the pen down for the X label
+            plotter_pen.schreibe("X");
+
+            plotter_pen.bewegeAuf(mitteX - 20, 15);  // Move the pen right for the Y label
+            plotter_pen.schreibe("Y");
+        }
+    }
+
+    public void zeichnePunkt(double x, double y) {
+        // Get the current width and height of the plotter (window)
+        int breite = plotter.breite();
+        int hoehe = plotter.hoehe();
+
+        // Point / Graph width
+        int width = 1;
+
+        // Determine the center of the window (origin of the coordinate system)
+        double mitteX = breite / 2.0;
+        double mitteY = hoehe / 2.0;
+
+        // Convert the coordinate (x, y) to screen coordinates
+        // Each unit corresponds to 20 pixels
+        double pixelX = mitteX + x * 20; // Scale and shift to the center
+        double pixelY = mitteY - y * 20; // Invert Y to make it fit the window
+
+        // Set the pen to normal mode
+        plotter_pen.normal();
+
+        // Set the pen color to red
+        plotter_pen.setzeFarbe(Farbe.ROT);
+
+        // Draw a small box (dot) at the specified position
+        plotter_pen.rechteck(pixelX, pixelY, width, width);
+    }
+
     // Method to handle the selected calculator mode
     private void handleCalculatorMode() {
         if (calculator_type.wurdeGewaehlt()) {
@@ -358,11 +510,14 @@ public class Interface {
                 // Additional logic for graphical calculator, if needed
             }
         }
+        if (plotter.istSichtbar() == false && calculator_type.index() != 0) {
+            calculator_type.waehle(0);
+        }
     }
 
     // Method to check if the program should stop running and clean up
     private void checkAndCleanup() {
-        if (plotter.istSichtbar() && !root.istSichtbar()) {
+        if (plotter.istSichtbar() && !root.istSichtbar() || !plotter.istSichtbar() && !root.istSichtbar()) {
             cleanup();
         }
     }
@@ -378,6 +533,9 @@ public class Interface {
             if (key != ' ') {
                 executeAction(key);
             }
+
+            // Draw Coordinate System on Plotter window
+            zeichneKoordinatensystem();
 
             // Prevent resizing of the root window
             handleWindowResize();

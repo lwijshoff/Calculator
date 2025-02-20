@@ -38,12 +38,29 @@ public class Plotter {
     }
 
     // Method to generate and display points
-    public static void plot(double start, double end, double step, String function) {
-        // Loop through the range of x values from start to end
-        for (double x = start; x <= end; x+= step) {
+    public static List<double[]> plot(double start, double end, double step, String function) {
+        List<double[]> points = new ArrayList<>();
+
+        // Loop through the range of x values
+        for (double x = start; x <= end; x += step) {
             double y = evaluateFunction(x, function); // Calculate y for current x
             System.out.printf("x = %.2f, y = %.2f\n", x, y); // Print result
+
+            // Store the point in the list
+            points.add(new double[] {x, y});
+
+            // Delay (if needed)
+            /*
+            try {
+                Thread.sleep(1);  // Delay in milliseconds
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            */
         }
+
+        // Return the list of points
+        return points;
     }
 
     public static void main(String[]args) {
