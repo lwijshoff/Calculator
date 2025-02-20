@@ -22,7 +22,7 @@ public class Calculator {
             double result = evaluateExpression(expression);
 
             // Round to 2 decimal places
-            return round(result, 12);  // Round to 4 decimal places
+            return round(result, 4);  // Round to 4 decimal places
         } catch (Exception e) {
             return Double.NaN; // Return NaN for invalid expressions
         }

@@ -1,15 +1,21 @@
 import basis.*;
 import java.awt.event.KeyEvent; // https://docs.oracle.com/en/java/javase/11/docs/api/constant-values.html
 import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
+
 
 public class Interface {
 
     private Fenster root;
+    private Fenster plotter;
     private TextFeld numberfield;
     private ListBox calculator_type;
 
     private int root_width = 420;
     private int root_height = 740;
+    private int plotter_width = 740;
+    private int plotter_height = 740;
     private int numberfield_width = 420 - 20;
     private int numberfield_height = 212;
     private int calculator_type_width = 150;
@@ -47,6 +53,11 @@ public class Interface {
     public Calculator calculator; // Custom implementation
 
     public Interface() {
+
+        // TODO: perhaps its more efficient to only create this when called for?
+        plotter = new Fenster("Plotter", plotter_width, plotter_height, false);
+        plotter.setzeHintergrundFarbe(Farbe.rgb(12, 12, 12));
+
         root = new Fenster("Calculator", root_width, root_height);
         root.setzeHintergrundFarbe(Farbe.rgb(12, 12, 12));
 
@@ -283,58 +294,84 @@ public class Interface {
         }
     }
 
+    // Method to get the key based on button presses or keyboard input
+    private char getPressedKey() {
+        char key = ' ';
+
+        // Map buttons to corresponding key values
+        // Absolute legends --> https://www.w3schools.com/java/java_hashmap.asp
+        Map<Knopf, Character> buttonToKeyMap = new HashMap<>();
+        buttonToKeyMap.put(clear, 'C');
+        buttonToKeyMap.put(one, '1');
+        buttonToKeyMap.put(two, '2');
+        buttonToKeyMap.put(three, '3');
+        buttonToKeyMap.put(four, '4');
+        buttonToKeyMap.put(five, '5');
+        buttonToKeyMap.put(six, '6');
+        buttonToKeyMap.put(seven, '7');
+        buttonToKeyMap.put(eigth, '8');
+        buttonToKeyMap.put(nine, '9');
+        buttonToKeyMap.put(zero, '0');
+        buttonToKeyMap.put(divide, '/');
+        buttonToKeyMap.put(multiply, '*');
+        buttonToKeyMap.put(minus, '-');
+        buttonToKeyMap.put(plus, '+');
+        buttonToKeyMap.put(decimal, '.');
+        buttonToKeyMap.put(bracket_open, '(');
+        buttonToKeyMap.put(bracket_close, ')');
+        buttonToKeyMap.put(remove, '⌫');
+        buttonToKeyMap.put(equals, '=');
+
+        // Check for button presses
+        for (Map.Entry<Knopf, Character> entry : buttonToKeyMap.entrySet()) {
+            if (entry.getKey().wurdeGedrueckt()) {
+                key = entry.getValue();
+                break;
+            }
+        }
+
+        // If no button is pressed, check for keyboard input
+        if (key == ' ' && keyboard.wurdeGedrueckt()) {
+            key = Character.toUpperCase(keyboard.zeichen());
+        }
+
+        return key;
+    }
+
+    // Method to handle window resizing
+    private void handleWindowResize() {
+        if (root.breite() != root_width || root.hoehe() != root_height) {
+            resizer();
+        }
+    }
+
+    // Method to handle the selected calculator mode
+    private void handleCalculatorMode() {
+        if (calculator_type.wurdeGewaehlt()) {
+            int mode = calculator_type.index(); // Get the selected calculator mode
+
+            if (mode == 0) {  // Normal Calculator Mode
+                plotter.setzeSichtbar(false);
+            } else if (mode == 1) {  // Graphical Calculator Mode
+                plotter.setzeSichtbar(true);
+                // Additional logic for graphical calculator, if needed
+            }
+        }
+    }
+
+    // Method to check if the program should stop running and clean up
+    private void checkAndCleanup() {
+        if (!plotter.istSichtbar() && !root.istSichtbar()) {
+            cleanup();
+        }
+    }
+
     public void fuehreAus() {
         while (true) {
-            Hilfe.kurzePause();
+            Hilfe.kurzePause();  // Short pause to prevent UI freezing
 
-            char key = ' ';
-            // Handle button presses for the normal calculator
-            if (clear.wurdeGedrueckt()) {
-                key = 'C';
-            } else if (one.wurdeGedrueckt()) {
-                key = '1';
-            } else if (two.wurdeGedrueckt()) {
-                key = '2';
-            } else if (three.wurdeGedrueckt()) {
-                key = '3';
-            } else if (four.wurdeGedrueckt()) {
-                key = '4';
-            } else if (five.wurdeGedrueckt()) {
-                key = '5';
-            } else if (six.wurdeGedrueckt()) {
-                key = '6';
-            } else if (seven.wurdeGedrueckt()) {
-                key = '7';
-            } else if (eigth.wurdeGedrueckt()) {
-                key = '8';
-            } else if (nine.wurdeGedrueckt()) {
-                key = '9';
-            } else if (zero.wurdeGedrueckt()) {
-                key = '0';
-            } else if (divide.wurdeGedrueckt()) {
-                key = '/';
-            } else if (multiply.wurdeGedrueckt()) {
-                key = '*';
-            } else if (minus.wurdeGedrueckt()) {
-                key = '-';
-            } else if (plus.wurdeGedrueckt()) {
-                key = '+';
-            } else if (decimal.wurdeGedrueckt()) {
-                key = '.';
-            } else if (bracket_open.wurdeGedrueckt()) {
-                key = '(';
-            } else if (bracket_close.wurdeGedrueckt()) {
-                key = ')';
-            } else if (remove.wurdeGedrueckt()) {
-                key = '⌫';
-            } else if (equals.wurdeGedrueckt()) {
-                key = '=';
-            }
-
-            // Check for keyboard input if no button is pressed
-            if (key == ' ' && keyboard.wurdeGedrueckt()) {
-                key = Character.toUpperCase(keyboard.zeichen());
-            }
+            // Handle button press or keyboard input
+            char key = getPressedKey();
 
             // Execute action if a valid key is detected
             if (key != ' ') {
@@ -342,30 +379,13 @@ public class Interface {
             }
 
             // Prevent resizing of the root window
-            if (root.breite() != root_width || root.hoehe() != root_height) {
-                resizer();
-            }
+            handleWindowResize();
 
-            // Check if a calculator type is selected
-            if (calculator_type.wurdeGewaehlt()) {
-                int mode = calculator_type.index(); // Get the selected calculator mode
+            // Handle calculator type change
+            handleCalculatorMode();
 
-                if (mode == 0) {  // Normal Calculator Mode
-                    calculator = new Calculator();
-
-                } else if (mode == 1) {  // Graphical Calculator Mode
-                    // calculator = new GraphicalCalculator();
-                    // Update the interface for graphical calculator mode
-                    // Here you can change buttons, labels, or add new functionality specific to graphical calculator
-
-                    // For example, if you need to add new graphical operations:
-                    // advancedOperationButtons();  // This is a method that adds advanced operations
-
-                    // Continue with the advanced calculator logic
-                    // For instance, handle advanced operations, trig functions, etc.
-                    // handleAdvancedOperations();
-                }
-            }
+            // Check if the program should stop running in the background
+            checkAndCleanup();
         }
     }
 }
