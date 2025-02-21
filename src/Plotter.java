@@ -44,35 +44,13 @@ public class Plotter {
         // Loop through the range of x values
         for (double x = start; x <= end; x += step) {
             double y = evaluateFunction(x, function); // Calculate y for current x
-            System.out.printf("x = %.2f, y = %.2f\n", x, y); // Print result
+            // System.out.printf("x = %.2f, y = %.2f\n", x, y); // Print result
 
             // Store the point in the list
             points.add(new double[] {x, y});
-
-            // Delay (if needed)
-            /*
-            try {
-                Thread.sleep(1);  // Delay in milliseconds
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            */
         }
 
         // Return the list of points
         return points;
     }
-
-    /*
-    public static void main(String[]args) {
-        // Define the range of x values to plot
-        double start = -10; // Starting x value
-        double end = 10;    // Ending x value
-        double step = 0.1;  // Step size to increment x by
-        String function = "f(x)=5x^3+6x^6-0.4"; // The function that is supposed to be plotted
-
-        // Call plot method to generate and display the points
-        plot(start, end, step, function);
-    }
-     */
 }

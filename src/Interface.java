@@ -8,8 +8,8 @@ import java.util.Map;
 public class Interface {
 
     private Fenster root;
-    private Fenster plotter;
-    private Stift plotter_pen;
+    private static Fenster plotter;
+    private static Stift plotter_pen;
     private TextFeld numberfield;
     private ListBox calculator_type;
 
@@ -164,7 +164,7 @@ public class Interface {
      *
      * @param mode The index of the calculator type to select.
      */
-    public void create_numberfield(int mode) {
+    private void create_numberfield(int mode) {
         numberfield = new TextFeld(10, 10, numberfield_width, numberfield_height, root);
         numberfield.setzeHintergrundFarbe(Farbe.rgb(44, 44, 44));
         numberfield.setzeRand(Farbe.SCHWARZ, 1);
@@ -185,18 +185,18 @@ public class Interface {
         }
     }
 
-    public void cleanup() {
+    private void cleanup() {
         // Clears the console for BlueJ
         System.out.println("System exit!");
         System.out.print('\u000C');
         System.exit(0);
     }
 
-    public void resizer() {
+    private void resizer() {
         root.setzeGroesse(root_width, root_height);
     }
 
-    public void executeAction(char key) {
+    private void executeAction(char key) {
 
         int keyCode = KeyEvent.VK_F4;
         int modifiers = KeyEvent.ALT_DOWN_MASK;
@@ -218,8 +218,12 @@ public class Interface {
 
                 // Keeps track of the last state the calculator was in, sets the calculator mode for the new numberfield
                 int mode = calculator_type.index();
-                numberfield.gibFrei();
-                create_numberfield(mode);
+                if (mode == 1 && numberfield.text().length() > 0) {
+                    numberfield.gibFrei();
+                    create_numberfield(mode);
+                } else {
+                    zeichneKoordinatensystem(0, 0);
+                }
                 break;
             case '1':
                 one.setzeFokus();
@@ -302,39 +306,35 @@ public class Interface {
                 }
                 break;
             case '=':
-                equals.setzeFokus();
+                equals.setzeFokus();  // Focus on the equals button
+
                 // Evaluate the expression entered in the number field
                 String expression = numberfield.text();
-                double result = calculator.eval(expression);
-                // TODO: double lastresult = result;  // Store the result as the last result
 
-                // Check if the result is NaN or not and log it correspondingly
-                if (Double.isNaN(result)) {
-                    System.err.println(result);
+                // Evaluate the expression using the calculator
+                Object result = calculator.eval(expression);
+
+                // Declare a variable to hold the final result
+                String output = "";
+
+                if (result instanceof Double) {
+                    Double resultDouble = (Double) result;  // Safe cast to Double
+                    if (Double.isNaN(resultDouble)) {
+                        System.err.println("Result is NaN");
+                    } else {
+                        System.out.println(resultDouble);
+                        output = String.valueOf(resultDouble);  // Convert the result to string
+                    }
+                } else if (result instanceof String) {
+                    String resultString = (String) result;  // Handle the string result
+                    System.out.println(resultString);
+                    output = resultString;  // If it's a string, set it as the output
                 } else {
-                    System.out.println(result);
+                    throw new IllegalArgumentException("Unsupported result type");
                 }
-                // Convert the result to a string and update the number field
-                String output = String.valueOf(result);
+
+                // Update the number field with the final output (whether it is a string or double)
                 numberfield.setzeText(output);  // Set the result as the number field text
-
-                // TEST
-
-                // Define the range of x values to plot
-                double start = -10; // Starting x value
-                double end = 10;    // Ending x value
-                double step = 0.0005;  // Step size to increment x by
-                String function = "f(x)=0.25x^2+2x-5"; // The function that is supposed to be plotted
-
-                // Get all the points
-                List<double[]> points = Plotter.plot(start, end, step, function);
-                // Loop through all points and plot them
-                for (double[] point : points) {
-                    zeichnePunkt(point[0], point[1]);
-                }
-
-                // TEST
-
                 break;
             case 'X':
                 bracket_close.setzeFokus();
@@ -350,7 +350,10 @@ public class Interface {
                 break;
             case 'F':
                 bracket_close.setzeFokus();
-                numberfield.fuegeAn("f(x)=");
+                if (!numberfield.text().contains("f(x)=")) {
+                    numberfield.fuegeAn("f(x)=");
+                }
+                calculator_type.waehle(1);
                 break;
         }
     }
@@ -411,108 +414,115 @@ public class Interface {
     }
 
     // Variables to save window sizes
-    private int letzteBreite = 0;
-    private int letzteHoehe = 0;
+    private static int letzteBreite = 0;
+    private static int letzteHoehe = 0;
 
     /**
      * God help me, this method took forever to create.
      *
      * Draws a 2D Coordinate system with axis, that adapt relative to the window size
      */
-    public void zeichneKoordinatensystem() {
+    private static void adaptivesKoordinatensystem() {
         // Get the current width and height of the window
         int breite = plotter.breite();
         int hoehe = plotter.hoehe();
 
         // Check if the window size has changed
         if (breite != letzteBreite || hoehe != letzteHoehe) {
-            // Update the stored window sizes
-            letzteBreite = breite;
-            letzteHoehe = hoehe;
-
-            // Determine the center point of the window (origin of the coordinate system)
-            double mitteX = breite / 2.0;
-            double mitteY = hoehe / 2.0;
-
-            // Clear the drawing area
-            plotter.loescheAlles();
-
-            // Set the pen to normal mode
-            plotter_pen.normal();
-
-            // Set the pen color to white
-            plotter_pen.setzeFarbe(Farbe.WEISS);
-
-            // Positive X-Axis
-            for (double x = mitteX; x <= breite; x += 20) {
-                plotter_pen.linie(x, mitteY - 5, x, mitteY + 5);  // Vertical line
-
-                // Calculate the value of the X-Axis
-                int AxisnWert = (int) ((x - mitteX) / 20);
-
-                // Label the X-Axis
-                if (x != mitteX) {  // Prevents the value of the origin (0) from appearing twice
-                    plotter_pen.bewegeAuf(x, mitteY + 15);  // Position for label
-                    plotter_pen.schreibe(Integer.toString(AxisnWert));
-                }
-            }
-
-            // Negative X-Axis
-            for (double x = mitteX; x >= 0; x -= 20) {
-                plotter_pen.linie(x, mitteY - 5, x, mitteY + 5);  // Vertical line
-
-                // Calculate the value of the X-Axis
-                int AxisnWert = (int) ((x - mitteX) / 20);
-
-                // Label the X-Axis
-                if (x != mitteX) {  // Prevents the value of the origin (0) from appearing twice
-                    plotter_pen.bewegeAuf(x, mitteY + 15);  // Position for label
-                    plotter_pen.schreibe(Integer.toString(AxisnWert));
-                }
-            }
-
-            // Positive Y-Axis
-            for (double y = mitteY; y >= 0; y -= 20) {
-                plotter_pen.linie(mitteX - 5, y, mitteX + 5, y);  // Horizontal line
-
-                // Calculate the value of the Y-Axis
-                int AxisnWert = (int) ((mitteY - y) / 20);
-
-                // Label the Y-Axis
-                if (y != mitteY) {  // Prevents the value of the origin (0) from appearing twice
-                    plotter_pen.bewegeAuf(mitteX + 10, y);  // Position for label
-                    plotter_pen.schreibe(Integer.toString(AxisnWert));
-                }
-            }
-
-            // Negative Y-Axis
-            for (double y = mitteY; y <= hoehe; y += 20) {
-                plotter_pen.linie(mitteX - 5, y, mitteX + 5, y);  // Horizontal line
-
-                // Calculate the value of the Y-Axis
-                int AxisnWert = (int) ((mitteY - y) / 20);
-
-                // Label the Y-Axis
-                if (y != mitteY) {  // Prevents the value of the origin (0) from appearing twice
-                    plotter_pen.bewegeAuf(mitteX + 10, y);  // Position for label
-                    plotter_pen.schreibe(Integer.toString(AxisnWert));
-                }
-            }
-
-            // Draw the main axes (X-Axis and Y-Axis)
-            plotter_pen.linie(0, mitteY, breite, mitteY);  // X-Axis
-            plotter_pen.linie(mitteX, 0, mitteX, hoehe);  // Y-Axis
-
-            // Label the axes
-            plotter_pen.bewegeAuf(breite - 15, mitteY - 15);  // Move the pen down for the X label
-            plotter_pen.schreibe("X");
-
-            plotter_pen.bewegeAuf(mitteX - 20, 15);  // Move the pen right for the Y label
-            plotter_pen.schreibe("Y");
+            zeichneKoordinatensystem(breite, hoehe);
         }
     }
 
-    public void zeichnePunkt(double x, double y) {
+    /**
+     * Draws a 2D Coordinate system with axis
+     */
+    private static void zeichneKoordinatensystem(int breite, int hoehe) {
+        // Update the stored window sizes
+        letzteBreite = breite;
+        letzteHoehe = hoehe;
+
+        // Determine the center point of the window (origin of the coordinate system)
+        double mitteX = breite / 2.0;
+        double mitteY = hoehe / 2.0;
+
+        // Clear the drawing area
+        plotter.loescheAlles();
+
+        // Set the pen to normal mode
+        plotter_pen.normal();
+
+        // Set the pen color to white
+        plotter_pen.setzeFarbe(Farbe.WEISS);
+
+        // Positive X-Axis
+        for (double x = mitteX; x <= breite; x += 20) {
+            plotter_pen.linie(x, mitteY - 5, x, mitteY + 5);  // Vertical line
+
+            // Calculate the value of the X-Axis
+            int AxisnWert = (int) ((x - mitteX) / 20);
+
+            // Label the X-Axis
+            if (x != mitteX) {  // Prevents the value of the origin (0) from appearing twice
+                plotter_pen.bewegeAuf(x, mitteY + 15);  // Position for label
+                plotter_pen.schreibe(Integer.toString(AxisnWert));
+            }
+        }
+
+        // Negative X-Axis
+        for (double x = mitteX; x >= 0; x -= 20) {
+            plotter_pen.linie(x, mitteY - 5, x, mitteY + 5);  // Vertical line
+
+            // Calculate the value of the X-Axis
+            int AxisnWert = (int) ((x - mitteX) / 20);
+
+            // Label the X-Axis
+            if (x != mitteX) {  // Prevents the value of the origin (0) from appearing twice
+                plotter_pen.bewegeAuf(x, mitteY + 15);  // Position for label
+                plotter_pen.schreibe(Integer.toString(AxisnWert));
+            }
+        }
+
+        // Positive Y-Axis
+        for (double y = mitteY; y >= 0; y -= 20) {
+            plotter_pen.linie(mitteX - 5, y, mitteX + 5, y);  // Horizontal line
+
+            // Calculate the value of the Y-Axis
+            int AxisnWert = (int) ((mitteY - y) / 20);
+
+            // Label the Y-Axis
+            if (y != mitteY) {  // Prevents the value of the origin (0) from appearing twice
+                plotter_pen.bewegeAuf(mitteX + 10, y);  // Position for label
+                plotter_pen.schreibe(Integer.toString(AxisnWert));
+            }
+        }
+
+        // Negative Y-Axis
+        for (double y = mitteY; y <= hoehe; y += 20) {
+            plotter_pen.linie(mitteX - 5, y, mitteX + 5, y);  // Horizontal line
+
+            // Calculate the value of the Y-Axis
+            int AxisnWert = (int) ((mitteY - y) / 20);
+
+            // Label the Y-Axis
+            if (y != mitteY) {  // Prevents the value of the origin (0) from appearing twice
+                plotter_pen.bewegeAuf(mitteX + 10, y);  // Position for label
+                plotter_pen.schreibe(Integer.toString(AxisnWert));
+            }
+        }
+
+        // Draw the main axes (X-Axis and Y-Axis)
+        plotter_pen.linie(0, mitteY, breite, mitteY);  // X-Axis
+        plotter_pen.linie(mitteX, 0, mitteX, hoehe);  // Y-Axis
+
+        // Label the axes
+        plotter_pen.bewegeAuf(breite - 15, mitteY - 15);  // Move the pen down for the X label
+        plotter_pen.schreibe("X");
+
+        plotter_pen.bewegeAuf(mitteX - 20, 15);  // Move the pen right for the Y label
+        plotter_pen.schreibe("Y");
+    }
+
+    public static void zeichnePunkt(double x, double y) {
         // Get the current width and height of the plotter (window)
         int breite = plotter.breite();
         int hoehe = plotter.hoehe();
@@ -530,13 +540,16 @@ public class Interface {
         double pixelY = mitteY - y * 20; // Invert Y to make it fit the window
 
         // Set the pen to normal mode
-        plotter_pen.normal();
+        plotter_pen.bewegeAuf(pixelX, pixelY);
 
         // Set the pen color to red
         plotter_pen.setzeFarbe(Farbe.ROT);
 
-        // Draw a small box (dot) at the specified position
-        plotter_pen.rechteck(pixelX, pixelY, width, width);
+        // Draw a line from its own position to its own position
+        // Note: This is faster than drawing a box of 1px size, don't ask why.
+        plotter_pen.runter();
+        plotter_pen.linie(pixelX, pixelY, pixelX, pixelY);
+        plotter_pen.hoch();
     }
 
     // Method to handle the selected calculator mode
@@ -576,7 +589,7 @@ public class Interface {
             }
 
             // Draw Coordinate System on Plotter window
-            zeichneKoordinatensystem();
+            adaptivesKoordinatensystem();
 
             // Prevent resizing of the root window
             handleWindowResize();

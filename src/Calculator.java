@@ -1,5 +1,9 @@
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
 
 // Note: all the regex filters in this script were created using web tools
 
@@ -10,11 +14,26 @@ public class Calculator {
      * @param expression The value to evaluate.
      * @return The result of the given expression.
      */
-    public double eval(String expression) {
+    public Object eval(String expression) {
         try {
 
-            if (expression.contains("x")) {
-                System.out.println("Is a function");
+            if (expression.contains("f(x)")) {
+
+                // Define the range of x values to plot
+                double start = -64; // Starting x value
+                double end = 64;    // Ending x value
+                double step = 0.0005;  // Step size to increment x by
+
+                // Get all the points
+                List<double[]> points = Plotter.plot(start, end, step, expression);
+                // Loop through all points and plot them
+                for (double[] point : points) {
+                    Interface.zeichnePunkt(point[0], point[1]);
+                }
+                return expression;
+                // return something?
+            } else if (expression.contains("x")) {
+                throw new IllegalArgumentException("Expression contained x but was not a function");
             }
             // Remove all whitespaces
             expression = expression.replaceAll("\\s", "");
@@ -28,6 +47,7 @@ public class Calculator {
             // Round to 2 decimal places
             return round(result, 4);  // Round to 4 decimal places
         } catch (Exception e) {
+            System.err.println(e);
             return Double.NaN; // Return NaN for invalid expressions
         }
     }
