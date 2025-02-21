@@ -9,14 +9,14 @@ It was intended for non-commercial purposes.
   - [x] Subtract
   - [x] Divide
   - [x] Multiply
-- [ ] Graphical Calculator
-  - [ ] Enter polynomial or prefactors
-  - [ ] Draw graphs
+- [x] Graphical Calculator
+  - [x] Enter polynomial or prefactors
+  - [x] Draw graphs
 
 > Scrapped the Advanced Calculator
-- [ ] Advanced Calculator
-  - [ ] Root
-  - [ ] Power
+- [x] Advanced Calculator
+  - [x] Root
+  - [x] Power
   - [ ] Logarithms
   - [ ] Sin
   - [ ] Cos
