@@ -217,7 +217,10 @@ public class Interface {
 
                 // Keeps track of the last state the calculator was in, sets the calculator mode for the new numberfield
                 int mode = calculator_type.index();
-                if (mode == 1 && numberfield.text().length() > 0) {
+                if (mode == 0) {
+                    numberfield.gibFrei();
+                    create_numberfield(mode);
+                } else if (mode == 1 && numberfield.text().length() > 0) {
                     numberfield.gibFrei();
                     create_numberfield(mode);
                 } else {
