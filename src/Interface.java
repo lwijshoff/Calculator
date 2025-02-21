@@ -148,7 +148,7 @@ public class Interface {
         carrot.setzeHintergrundFarbe(Farbe.rgb(44, 44, 44));
         carrot.setzeSchriftFarbe(Farbe.WEISS);
 
-        funct = new Knopf("f(x)", 310, 212 + 20, 100, 100, root); // TODO: When this button is pressed it should automatically set over to Graphical Calculator
+        funct = new Knopf("f(x)", 310, 212 + 20, 100, 100, root);
         funct.setzeHintergrundFarbe(Farbe.rgb(44, 44, 44));
         funct.setzeSchriftFarbe(Farbe.WEISS);
 
