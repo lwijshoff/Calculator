@@ -12,6 +12,10 @@ public class Calculator {
      */
     public double eval(String expression) {
         try {
+
+            if (expression.contains("x")) {
+                System.out.println("Is a function");
+            }
             // Remove all whitespaces
             expression = expression.replaceAll("\\s", "");
 
@@ -71,19 +75,22 @@ public class Calculator {
         return evaluateTerm(expression); // If no + or -, evaluate the term
     }
 
-    // Method to evaluate terms (handles *, /)
+    // Method to evaluate terms (handles *, / and ^ for exponentiation)
     private double evaluateTerm(String expression) {
         int lastOperatorIndex = -1;
         int parenthesesBalance = 0;
 
-        // Identical to evaluateExpression but for * and /
+        // Identical to evaluateExpression but for *, / and ^
         for (int i = expression.length() - 1; i >= 0; i--) {
             char c = expression.charAt(i);
 
             if (c == ')') parenthesesBalance++;
             else if (c == '(') parenthesesBalance--;
 
-            if (parenthesesBalance == 0 && (c == '*' || c == '/') && lastOperatorIndex == -1) {
+            // Handle the ^ operator with the highest precedence
+            if (parenthesesBalance == 0 && c == '^' && lastOperatorIndex == -1) {
+                lastOperatorIndex = i;
+            } else if (parenthesesBalance == 0 && (c == '*' || c == '/') && lastOperatorIndex == -1) {
                 lastOperatorIndex = i;
             }
         }
@@ -93,7 +100,9 @@ public class Calculator {
             String right = expression.substring(lastOperatorIndex + 1);
             char operator = expression.charAt(lastOperatorIndex);
 
-            if (operator == '*') {
+            if (operator == '^') {
+                return Math.pow(evaluateTerm(left), evaluateFactor(right)); // Exponentiation
+            } else if (operator == '*') {
                 return evaluateTerm(left) * evaluateFactor(right);
             } else {
                 return evaluateTerm(left) / evaluateFactor(right);

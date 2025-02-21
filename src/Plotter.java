@@ -63,6 +63,7 @@ public class Plotter {
         return points;
     }
 
+    /*
     public static void main(String[]args) {
         // Define the range of x values to plot
         double start = -10; // Starting x value
@@ -73,4 +74,5 @@ public class Plotter {
         // Call plot method to generate and display the points
         plot(start, end, step, function);
     }
+     */
 }

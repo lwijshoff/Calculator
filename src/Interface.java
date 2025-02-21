@@ -14,7 +14,7 @@ public class Interface {
     private ListBox calculator_type;
 
     private int root_width = 420;
-    private int root_height = 740;
+    private int root_height = 840;
     private int plotter_width = 740;
     private int plotter_height = 740;
     private int numberfield_width = 420 - 20;
@@ -51,6 +51,11 @@ public class Interface {
 
     private Knopf equals;
 
+    private Knopf x;
+    private Knopf exponent;
+    private Knopf carrot;
+    private Knopf funct;
+
     public Calculator calculator; // Custom implementation
 
     public Interface() {
@@ -68,57 +73,57 @@ public class Interface {
         default_calculator = 0;
         create_numberfield(default_calculator);
 
-        one = new Knopf("1", 10, 312 + 20, 100, 100, root);
+        one = new Knopf("1", 10, 412 + 20, 100, 100, root);
         one.setzeHintergrundFarbe(Farbe.rgb(66, 66, 66));
         one.setzeSchriftFarbe(Farbe.WEISS);
-        two = new Knopf("2", 110, 312 + 20, 100, 100, root);
+        two = new Knopf("2", 110, 412 + 20, 100, 100, root);
         two.setzeHintergrundFarbe(Farbe.rgb(66, 66, 66));
         two.setzeSchriftFarbe(Farbe.WEISS);
-        three = new Knopf("3", 210, 312 + 20, 100, 100, root);
+        three = new Knopf("3", 210, 412 + 20, 100, 100, root);
         three.setzeHintergrundFarbe(Farbe.rgb(66, 66, 66));
         three.setzeSchriftFarbe(Farbe.WEISS);
-        four = new Knopf("4", 10, 412 + 20, 100, 100, root);
+        four = new Knopf("4", 10, 512 + 20, 100, 100, root);
         four.setzeHintergrundFarbe(Farbe.rgb(66, 66, 66));
         four.setzeSchriftFarbe(Farbe.WEISS);
-        five = new Knopf("5", 110, 412 + 20, 100, 100, root);
+        five = new Knopf("5", 110, 512 + 20, 100, 100, root);
         five.setzeHintergrundFarbe(Farbe.rgb(66, 66, 66));
         five.setzeSchriftFarbe(Farbe.WEISS);
-        six = new Knopf("6", 210, 412 + 20, 100, 100, root);
+        six = new Knopf("6", 210, 512 + 20, 100, 100, root);
         six.setzeHintergrundFarbe(Farbe.rgb(66, 66, 66));
         six.setzeSchriftFarbe(Farbe.WEISS);
-        seven = new Knopf("7", 10, 512 + 20, 100, 100, root);
+        seven = new Knopf("7", 10, 612 + 20, 100, 100, root);
         seven.setzeHintergrundFarbe(Farbe.rgb(66, 66, 66));
         seven.setzeSchriftFarbe(Farbe.WEISS);
-        eigth = new Knopf("8", 110, 512 + 20, 100, 100, root);
+        eigth = new Knopf("8", 110, 612 + 20, 100, 100, root);
         eigth.setzeHintergrundFarbe(Farbe.rgb(66, 66, 66));
         eigth.setzeSchriftFarbe(Farbe.WEISS);
-        nine = new Knopf("9", 210, 512 + 20, 100, 100, root);
+        nine = new Knopf("9", 210, 612 + 20, 100, 100, root);
         nine.setzeHintergrundFarbe(Farbe.rgb(66, 66, 66));
         nine.setzeSchriftFarbe(Farbe.WEISS);
-        zero = new Knopf("0", 10, 612 + 20, 100, 100, root);
+        zero = new Knopf("0", 10, 712 + 20, 100, 100, root);
         zero.setzeHintergrundFarbe(Farbe.rgb(66, 66, 66));
         zero.setzeSchriftFarbe(Farbe.WEISS);
 
         clear = new Knopf("AC", 10, 212 + 20, 100, 100, root);
         clear.setzeHintergrundFarbe(Farbe.rgb(0, 255, 255));
 
-        remove = new Knopf("⌫", 210, 612 + 20, 100, 100, root);
+        remove = new Knopf("⌫", 210, 712 + 20, 100, 100, root);
         remove.setzeHintergrundFarbe(Farbe.rgb(44, 44, 44));
         remove.setzeSchriftFarbe(Farbe.WEISS);
-        decimal = new Knopf(".", 110, 612 + 20 ,100,100, root);
+        decimal = new Knopf(".", 110, 712 + 20 ,100,100, root);
         decimal.setzeHintergrundFarbe(Farbe.rgb(44, 44, 44));
         decimal.setzeSchriftFarbe(Farbe.WEISS);
 
-        plus = new Knopf("+", 310, 512 + 20, 100, 100, root);
+        plus = new Knopf("+", 310, 612 + 20, 100, 100, root);
         plus.setzeHintergrundFarbe(Farbe.rgb(44, 44, 44));
         plus.setzeSchriftFarbe(Farbe.WEISS);
-        minus = new Knopf("-", 310, 412 + 20, 100, 100, root);
+        minus = new Knopf("-", 310, 512 + 20, 100, 100, root);
         minus.setzeHintergrundFarbe(Farbe.rgb(44, 44, 44));
         minus.setzeSchriftFarbe(Farbe.WEISS);
-        multiply = new Knopf("×", 310, 312 + 20, 100, 100, root);
+        multiply = new Knopf("×", 310, 412 + 20, 100, 100, root);
         multiply.setzeHintergrundFarbe(Farbe.rgb(44, 44, 44));
         multiply.setzeSchriftFarbe(Farbe.WEISS);
-        divide = new Knopf("÷", 310, 212 + 20, 100, 100, root);
+        divide = new Knopf("÷", 310, 312 + 20, 100, 100, root);
         divide.setzeHintergrundFarbe(Farbe.rgb(44, 44, 44));
         divide.setzeSchriftFarbe(Farbe.WEISS);
         bracket_open = new Knopf("(", 110, 212 + 20, 100, 100, root);
@@ -128,8 +133,24 @@ public class Interface {
         bracket_close.setzeHintergrundFarbe(Farbe.rgb(44, 44, 44));
         bracket_close.setzeSchriftFarbe(Farbe.WEISS);
 
-        equals = new Knopf("=", 310, 612 + 20, 100, 100, root);
+        equals = new Knopf("=", 310, 712 + 20, 100, 100, root);
         equals.setzeHintergrundFarbe(Farbe.rgb(0, 255, 255));
+
+        x = new Knopf("x", 10, 312 + 20, 100, 100, root);
+        x.setzeHintergrundFarbe(Farbe.rgb(44, 44, 44));
+        x.setzeSchriftFarbe(Farbe.WEISS);
+
+        exponent = new Knopf("^", 110, 312 + 20, 100, 100, root);
+        exponent.setzeHintergrundFarbe(Farbe.rgb(44, 44, 44));
+        exponent.setzeSchriftFarbe(Farbe.WEISS);
+
+        carrot = new Knopf("⎷", 210, 312 + 20, 100, 100, root); // explicitly used radical root symbol, because it will take any [ x^(1/n) ]
+        carrot.setzeHintergrundFarbe(Farbe.rgb(44, 44, 44));
+        carrot.setzeSchriftFarbe(Farbe.WEISS);
+
+        funct = new Knopf("f(x)", 310, 212 + 20, 100, 100, root); // TODO: When this button is pressed it should automatically set over to Graphical Calculator
+        funct.setzeHintergrundFarbe(Farbe.rgb(44, 44, 44));
+        funct.setzeSchriftFarbe(Farbe.WEISS);
 
         keyboard = new Tastatur();
         mouse = new Maus(equals);
@@ -303,7 +324,7 @@ public class Interface {
                 double start = -10; // Starting x value
                 double end = 10;    // Ending x value
                 double step = 0.0005;  // Step size to increment x by
-                String function = "f(x)=6x"; // The function that is supposed to be plotted
+                String function = "f(x)=0.25x^2+2x-5"; // The function that is supposed to be plotted
 
                 // Get all the points
                 List<double[]> points = Plotter.plot(start, end, step, function);
@@ -314,6 +335,22 @@ public class Interface {
 
                 // TEST
 
+                break;
+            case 'X':
+                bracket_close.setzeFokus();
+                numberfield.fuegeAn("x");
+                break;
+            case '^':
+                bracket_close.setzeFokus();
+                numberfield.fuegeAn("^");
+                break;
+            case '⎷':
+                bracket_close.setzeFokus();
+                numberfield.fuegeAn("^(1/2)");
+                break;
+            case 'F':
+                bracket_close.setzeFokus();
+                numberfield.fuegeAn("f(x)=");
                 break;
         }
     }
@@ -345,6 +382,10 @@ public class Interface {
         buttonToKeyMap.put(bracket_close, ')');
         buttonToKeyMap.put(remove, '⌫');
         buttonToKeyMap.put(equals, '=');
+        buttonToKeyMap.put(x, 'X');
+        buttonToKeyMap.put(exponent, '^');
+        buttonToKeyMap.put(carrot, '⎷');
+        buttonToKeyMap.put(funct, 'F');
 
         // Check for button presses
         for (Map.Entry<Knopf, Character> entry : buttonToKeyMap.entrySet()) {
