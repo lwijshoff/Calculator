@@ -1,5 +1,9 @@
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
 
 // Note: all the regex filters in this script were created using web tools
 
@@ -10,8 +14,27 @@ public class Calculator {
      * @param expression The value to evaluate.
      * @return The result of the given expression.
      */
-    public double eval(String expression) {
+    public Object eval(String expression) {
         try {
+
+            if (expression.contains("f(x)")) {
+
+                // Define the range of x values to plot
+                double start = -64; // Starting x value
+                double end = 64;    // Ending x value
+                double step = 0.0005;  // Step size to increment x by
+
+                // Get all the points
+                List<double[]> points = Plotter.plot(start, end, step, expression);
+                // Loop through all points and plot them
+                for (double[] point : points) {
+                    Interface.zeichnePunkt(point[0], point[1]);
+                }
+                return expression;
+                // return something?
+            } else if (expression.contains("x")) {
+                throw new IllegalArgumentException("Expression contained x but was not a function");
+            }
             // Remove all whitespaces
             expression = expression.replaceAll("\\s", "");
 
@@ -22,8 +45,9 @@ public class Calculator {
             double result = evaluateExpression(expression);
 
             // Round to 2 decimal places
-            return round(result, 12);  // Round to 4 decimal places
+            return round(result, 4);  // Round to 4 decimal places
         } catch (Exception e) {
+            System.err.println(e);
             return Double.NaN; // Return NaN for invalid expressions
         }
     }
@@ -71,19 +95,22 @@ public class Calculator {
         return evaluateTerm(expression); // If no + or -, evaluate the term
     }
 
-    // Method to evaluate terms (handles *, /)
+    // Method to evaluate terms (handles *, / and ^ for exponentiation)
     private double evaluateTerm(String expression) {
         int lastOperatorIndex = -1;
         int parenthesesBalance = 0;
 
-        // Identical to evaluateExpression but for * and /
+        // Identical to evaluateExpression but for *, / and ^
         for (int i = expression.length() - 1; i >= 0; i--) {
             char c = expression.charAt(i);
 
             if (c == ')') parenthesesBalance++;
             else if (c == '(') parenthesesBalance--;
 
-            if (parenthesesBalance == 0 && (c == '*' || c == '/') && lastOperatorIndex == -1) {
+            // Handle the ^ operator with the highest precedence
+            if (parenthesesBalance == 0 && c == '^' && lastOperatorIndex == -1) {
+                lastOperatorIndex = i;
+            } else if (parenthesesBalance == 0 && (c == '*' || c == '/') && lastOperatorIndex == -1) {
                 lastOperatorIndex = i;
             }
         }
@@ -93,7 +120,9 @@ public class Calculator {
             String right = expression.substring(lastOperatorIndex + 1);
             char operator = expression.charAt(lastOperatorIndex);
 
-            if (operator == '*') {
+            if (operator == '^') {
+                return Math.pow(evaluateTerm(left), evaluateFactor(right)); // Exponentiation
+            } else if (operator == '*') {
                 return evaluateTerm(left) * evaluateFactor(right);
             } else {
                 return evaluateTerm(left) / evaluateFactor(right);
@@ -101,25 +130,6 @@ public class Calculator {
         }
 
         return evaluateFactor(expression); // If no * or /, evaluate the factor
-    }
-
-    // Method to handle power operator '**' (x**n or x**(1/n))
-    private double evaluatePower(String expression) {
-        // Split by '**' to separate the base and exponent
-        String[] parts = expression.split("\\*\\*");
-        double base = Double.parseDouble(parts[0]);
-
-        // Check if the exponent is wrapped in parentheses (for roots like 1/n)
-        double exponent;
-        if (parts[1].startsWith("(") && parts[1].endsWith(")")) {
-            // Remove the parentheses and parse the value inside
-            String innerExpression = parts[1].substring(1, parts[1].length() - 1);
-            exponent = eval(innerExpression); // Call eval on the inner expression (1/n or something similar)
-        } else {
-            exponent = Double.parseDouble(parts[1]); // Regular exponent
-        }
-
-        return Math.pow(base, exponent); // Use Math.pow to calculate x^n or x^(1/n)
     }
 
     // Method to evaluate individual factors
