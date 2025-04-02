@@ -17,7 +17,7 @@ public class Calculator {
                 // Define the range of x values to plot
                 double start = -64; // Starting x value
                 double end = 64;    // Ending x value
-                double step = 0.00005;  // Step size to increment x by
+                double step = 0.0005;  // Step size to increment x by
 
                 // Get all the points
                 List<double[]> points = Plotter.plot(start, end, step, expression);
