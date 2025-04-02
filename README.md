@@ -3,7 +3,7 @@
 This repository contains the code of a school calculator program.  \
 It was intended for non-commercial purposes.
 
-## TODO
+## Features
 - [x] Basic Calculator
   - [x] Add
   - [x] Subtract
@@ -13,12 +13,6 @@ It was intended for non-commercial purposes.
   - [x] Enter polynomial or prefactors
   - [x] Draw graphs
 
-> Scrapped the Advanced Calculator
 - [x] Advanced Calculator
   - [x] Root
   - [x] Power
-  - [ ] Logarithms
-  - [ ] Sin
-  - [ ] Cos
-  - [ ] Tan
-  - [ ] Add button for inserting ANS?
