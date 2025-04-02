@@ -10,7 +10,7 @@ public class Interface {
     private static Fenster plotter;
     private static Stift plotter_pen;
     private TextFeld numberfield;
-    private ListBox calculator_type;
+    public static ListBox calculator_type;
 
     private int root_width = 420;
     private int root_height = 840;
@@ -314,7 +314,7 @@ public class Interface {
                 String expression = numberfield.text();
 
                 // Evaluate the expression using the calculator
-                Object result = calculator.eval(expression);
+                Object result = calculator.eval(expression, 'x');
 
                 // Declare a variable to hold the final result
                 String output = "";
@@ -323,6 +323,9 @@ public class Interface {
                     Double resultDouble = (Double) result;  // Safe cast to Double
                     if (Double.isNaN(resultDouble)) {
                         System.err.println("Result is NaN");
+                        // Didn't place this here because it would put text in the numberfield, sucks when trying to continue calculating
+                        // Error notice in console is enough (includes a stacktrace)
+                        // output = String.valueOf(resultDouble);
                     } else {
                         System.out.println(resultDouble);
                         output = String.valueOf(resultDouble);  // Convert the result to string
